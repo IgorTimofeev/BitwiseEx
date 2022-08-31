@@ -4,6 +4,22 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>An pack of extension methods for bitwise operations on byte arrays/numbers/strings. Also includes tiny protocol for compact data encoding/decoding</Description>
+    <PackageProjectUrl>https://github.com/IgorTimofeev/BitwiseEx</PackageProjectUrl>
+    <PackageTags>bitwise;binary;protocol;encoding;decoding</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Title>BitwiseEx</Title>
+    <Authors>Igor Timofeev</Authors>
+    <Product />
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
