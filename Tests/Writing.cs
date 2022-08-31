@@ -19,16 +19,21 @@ public class Writing {
 		byte[] destination = new byte[4];
 		int index = 0;
 
-		void assert(int value, byte valueByteCount, params byte[] expected) {
+		void assert(int value, byte valueByteCount, bool littleEndian, params byte[] expected) {
 			PrepareWriteNumber(destination, ref index);
-			destination.Write(ref index, in value, in valueByteCount);
+			destination.Write(ref index, in value, in valueByteCount, littleEndian);
 			AssertWriteNumber(destination, ref index, in valueByteCount, expected);
 		}
 
-		assert(0x11_22_33_44, 4, 0x11, 0x22, 0x33, 0x44);
-		assert(0x11_22_33_44, 3, 0x22, 0x33, 0x44, 0x00);
-		assert(0x11_22_33_44, 2, 0x33, 0x44, 0x00, 0x00);
-		assert(0x11_22_33_44, 1, 0x44, 0x00, 0x00, 0x00);
+		assert(0x11_22_33_44, 4, false, 0x11, 0x22, 0x33, 0x44);
+		assert(0x11_22_33_44, 3, false, 0x22, 0x33, 0x44, 0x00);
+		assert(0x11_22_33_44, 2, false, 0x33, 0x44, 0x00, 0x00);
+		assert(0x11_22_33_44, 1, false, 0x44, 0x00, 0x00, 0x00);
+
+		assert(0x11_22_33_44, 4, true, 0x44, 0x33, 0x22, 0x11);
+		assert(0x11_22_33_44, 3, true, 0x44, 0x33, 0x22, 0x00);
+		assert(0x11_22_33_44, 2, true, 0x44, 0x33, 0x00, 0x00);
+		assert(0x11_22_33_44, 1, true, 0x44, 0x00, 0x00, 0x00);
 	}
 
 	[TestMethod]
@@ -86,18 +91,18 @@ public class Writing {
 	public void ReadInt() {
 		int index;
 
-		void assert(byte[] source, byte valueByteCount, int expected, bool littleEndian) {
+		void assert(byte[] source, byte valueByteCount, int expected) {
 			index = 0;
 
-			var value = source.ReadInt(ref index, in valueByteCount, littleEndian);
+			var value = source.ReadInt(ref index, in valueByteCount);
 
 			Assert.AreEqual(expected, value);
 			Assert.AreEqual(index, valueByteCount);
 		}
 
-		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 4, 0x11_22_33_44, false);
-		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 3, 0x00_11_22_33, false);
-		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 2, 0x00_00_11_22, false);
-		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 1, 0x00_00_00_11, false);
+		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 4, 0x11_22_33_44);
+		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 3, 0x00_11_22_33);
+		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 2, 0x00_00_11_22);
+		assert(new byte[] { 0x11, 0x22, 0x33, 0x44 }, 1, 0x00_00_00_11);
 	}
 }

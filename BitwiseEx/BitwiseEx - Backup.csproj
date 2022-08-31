@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Description>An pack of extension methods for bitwise operations on byte arrays/numbers/strings. Also includes tiny protocol for compact data encoding/decoding</Description>
     <PackageProjectUrl>https://github.com/IgorTimofeev/BitwiseEx</PackageProjectUrl>
     <PackageTags>bitwise;binary;protocol;encoding;decoding</PackageTags>
@@ -15,7 +15,7 @@
     <Product />
     <AssemblyVersion>1.0.0.1</AssemblyVersion>
     <FileVersion>1.0.0.1</FileVersion>
-    <Version>1.0.2</Version>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,4 +24,9 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+	<Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceRelease)' != '' And '$(Configuration)' == 'Release'">
+		<Exec Command="$(NuGetPath)nuget.exe push $(ProjectDir)bin\$(Configuration)\*.nupkg -Source $(NuGetSourceRelease)" />
+	</Target>
+
 </Project>

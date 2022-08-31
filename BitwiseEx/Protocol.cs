@@ -2,7 +2,7 @@
 
 namespace BitwiseEx.Protocol;
 
-public static class EncodingExtensions {
+public static class ProtocolExtensions {
 	#region Int
 
 	public static void Encode(this byte[] destination, ref int index, in int value, in byte valueByteCount) {
